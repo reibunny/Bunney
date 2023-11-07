@@ -1,5 +1,23 @@
 const mongoose = require("mongoose");
 
+const months = [
+	January,
+	February,
+	March,
+	April,
+	May,
+	June,
+	July,
+	August,
+	September,
+	October,
+	December,
+];
+
+const now = Date.now();
+const currentDate = new Date(now);
+const currentMonth = currentDate.getMonth();
+
 const IncomeSchema = new mongoose.Schema(
 	{
 		title: {
@@ -23,7 +41,7 @@ const IncomeSchema = new mongoose.Schema(
 
 		date: {
 			type: Date,
-			default: Date.now,
+			default: currentDate,
 			required: true,
 		},
 
@@ -31,6 +49,13 @@ const IncomeSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
+		},
+
+		budget: {
+			type: String,
+			required: false,
+			trim: true,
+			default: `${months[currentMonth]} income`,
 		},
 
 		description: {
