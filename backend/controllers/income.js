@@ -3,11 +3,16 @@ const Income = require("../models/Income");
 exports.addIncome = async (req, res) => {
 	const { title, amount, category, date } = req.body;
 
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
 	const income = Income({
 		title,
 		amount,
 		category,
 		date,
+		userId: req.user._id,
 	});
 
 	try {
@@ -31,9 +36,16 @@ exports.addIncome = async (req, res) => {
 };
 
 exports.getIncomes = async (req, res) => {
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
 	try {
-		const incomes = await Income.find().sort({ createdAt: -1 });
-		res.status(200).json(incomes);
+		const incomes = await Income.find({ userId: req.user._id }).sort({
+			createdAt: -1,
+		});
+
+		await res.status(200).json(incomes);
 	} catch (error) {
 		res.status(500).json({ message: "Server error." });
 	}
@@ -41,11 +53,26 @@ exports.getIncomes = async (req, res) => {
 
 exports.deleteIncome = async (req, res) => {
 	const { id } = req.params;
-	Income.findByIdAndDelete(id)
-		.then((income) => {
-			res.status(200).json({ message: "Income deleted." });
-		})
-		.catch((err) => {
-			res.status(500).json({ message: "Server error." });
+
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
+	try {
+		// Ensure that the user can only delete their own incomes
+		const deletedIncome = await Income.findOneAndDelete({
+			_id: id,
+			userId: req.user._id,
 		});
+
+		if (!deletedIncome) {
+			return res.status(404).json({
+				message: "Income not found or you don't have permission to delete it.",
+			});
+		}
+
+		res.status(200).json({ message: "Income deleted." });
+	} catch (error) {
+		res.status(500).json({ message: "Server error." });
+	}
 };

@@ -1,0 +1,70 @@
+.lateral {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 96vh;
+	width: 93%;
+	margin-top: 2vh;
+	margin-left: 2vh;
+	font-size: 8rem;
+	background: radial-gradient(
+		circle,
+		rgba(137, 65, 153, 1) 17%,
+		rgba(18, 0, 26, 1) 90%
+	);
+	border-radius: 2rem;
+
+	.tabs {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 1;
+		width: 100%;
+	}
+
+	.tab {
+		margin-top: 4rem;
+		margin-bottom: 0.5rem;
+
+		.active {
+			color: white;
+			background-color: #12001a;
+			padding: 1rem 4rem;
+			border-radius: 50px;
+			font-weight: 500;
+		}
+	}
+
+	.profile {
+		margin-top: auto;
+		margin-bottom: 2rem;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		.card {
+			display: flex;
+			line-height: 40px;
+			margin-bottom: 10px;
+		}
+
+		.icon {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			background-color: white;
+		}
+
+		.name {
+			font-size: 1vw;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			margin-left: 5%;
+		}
+	}
+}

@@ -8,7 +8,12 @@ exports.addExpense = async (req, res) => {
 		amount,
 		category,
 		date,
+		userId: req.user._id,
 	});
+
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
 
 	try {
 		// validations
@@ -16,7 +21,7 @@ exports.addExpense = async (req, res) => {
 			return res.status(400).json({ message: "All fields are required." });
 		}
 
-		if (amount <= 0 || !amount === "number") {
+		if (amount <= 0 || typeof amount !== "number") {
 			return res
 				.status(400)
 				.json({ message: "Amount must be a number superior to 0." });
@@ -31,8 +36,14 @@ exports.addExpense = async (req, res) => {
 };
 
 exports.getExpenses = async (req, res) => {
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
 	try {
-		const expenses = await expense.find().sort({ createdAt: -1 });
+		const expenses = await Expense.find({ userId: req.user._id }).sort({
+			createdAt: -1,
+		});
 		res.status(200).json(expenses);
 	} catch (error) {
 		res.status(500).json({ message: "Server error." });
@@ -41,12 +52,34 @@ exports.getExpenses = async (req, res) => {
 
 exports.deleteExpense = async (req, res) => {
 	const { id } = req.params;
-	expense
-		.findByIdAndDelete(id)
-		.then((expense) => {
-			res.status(200).json({ message: "Expense deleted." });
-		})
-		.catch((err) => {
-			res.status(500).json({ message: "Server error." });
+
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+	try {
+		// Ensure that the user can only delete their own expenses
+		const deletedExpense = await Expense.findOneAndDelete({
+			_id: id,
+			userId: req.user._id,
 		});
+
+		if (!deletedExpense) {
+			return res.status(404).json({
+				message: "Expense not found or you don't have permission to delete it.",
+			});
+		}
+
+		res.status(200).json({ message: "Expense deleted." });
+	} catch (error) {
+		res.status(500).json({ message: "Server error." });
+	}
+
+	// expense
+	// 	.findByIdAndDelete(id)
+	// 	.then((expense) => {
+	// 		res.status(200).json({ message: "Expense deleted." });
+	// 	})
+	// 	.catch((err) => {
+	// 		res.status(500).json({ message: "Server error." });
+	// 	});
 };

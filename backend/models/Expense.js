@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
 const months = [
-	January,
-	February,
-	March,
-	April,
-	May,
-	June,
-	July,
-	August,
-	September,
-	October,
-	December,
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"December",
 ];
 
 const now = Date.now();
@@ -20,6 +20,12 @@ const currentMonth = currentDate.getMonth();
 
 const ExpenseSchema = new mongoose.Schema(
 	{
+		userId: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+			ref: "User",
+		},
+
 		title: {
 			type: String,
 			required: true,
