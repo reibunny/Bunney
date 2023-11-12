@@ -51,8 +51,8 @@ export default function Login() {
 	};
 
 	return (
-		<div className="login">
-			<section>
+		<div className="center">
+			<div className="login">
 				<h1>Sign In</h1>
 				<p
 					ref={errRef}
@@ -61,39 +61,43 @@ export default function Login() {
 					{errorMsg}
 				</p>
 				<form onSubmit={handleSubmit}>
-					<label htmlFor="username">Username</label>
-					<input
-						type="text"
-						id="username"
-						ref={userRef}
-						autoComplete="off"
-						required
-						onChange={(e) => {
-							setUsername(e.target.value);
-						}}
-						value={username}
-					/>
+					<div className="input">
+						<label htmlFor="username">Username</label>
+						<input
+							type="text"
+							id="username"
+							ref={userRef}
+							autoComplete="off"
+							required
+							onChange={(e) => {
+								setUsername(e.target.value);
+							}}
+							value={username}
+						/>
+					</div>
 
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						id="password"
-						required
-						onChange={(e) => {
-							setPassword(e.target.value);
-						}}
-						value={password}
-					/>
+					<div className="input">
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							id="password"
+							required
+							onChange={(e) => {
+								setPassword(e.target.value);
+							}}
+							value={password}
+						/>
+					</div>
 
 					<div className="btn">
 						<button>Log In</button>
 					</div>
 				</form>
-				<p className="notregistered">
+				<p className="link">
 					Not registered ? <br />
 					<Link to="/register">Sign Up</Link>
 				</p>
-			</section>
+			</div>
 		</div>
 	);
 }

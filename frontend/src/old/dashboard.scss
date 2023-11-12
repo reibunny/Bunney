@@ -1,0 +1,61 @@
+.dashboard {
+	width: 81.5vw;
+	height: 93.5vh;
+	margin-top: 2vh;
+	margin-left: 1rem;
+	padding: 1rem;
+	background-color: #12001a;
+	border-radius: 2rem;
+	font-size: 2.5rem;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	grid-template-areas:
+		"title title budgets budgets budgets"
+		"daily daily budgets budgets budgets"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"daily daily transactions transactions transactions"
+		"add-new add-new transactions transactions transactions";
+	grid-gap: 15px;
+
+	.title {
+		grid-area: title;
+		background-color: #290d33;
+		border-radius: 1rem;
+		padding: 0.5rem;
+	}
+
+	.budgets {
+		grid-area: budgets;
+		background-color: #290d33;
+		border-radius: 1rem;
+		padding: 0.5rem;
+	}
+
+	.daily {
+		grid-area: daily;
+		background-color: #290d33;
+		border-radius: 1rem;
+		padding: 0.5rem;
+	}
+
+	.transactions {
+		grid-area: transactions;
+		background-color: #290d33;
+		border-radius: 1rem;
+		padding: 0.5rem;
+	}
+
+	.add-new {
+		grid-area: add-new;
+		background-color: #290d33;
+		border-radius: 1rem;
+		padding: 0.5rem;
+		display: flex;
+	}
+}

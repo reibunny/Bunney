@@ -48,57 +48,64 @@ export default function Register() {
 	};
 
 	return (
-		<div className="login">
-			<section>
-				<h1>Sign In</h1>
+		<div className="center">
+			<div className="login">
+				<h1>Register</h1>
 				<p
 					ref={errRef}
 					className={errorMsg ? "errormsg" : "offscreen"}
 					aria-live="assertive">
 					{errorMsg}
 				</p>
-				<form onSubmit={handleSubmit}>
-					<label htmlFor="username">Username</label>
-					<input
-						type="text"
-						id="username"
-						ref={userRef}
-						autoComplete="off"
-						required
-						onChange={(e) => {
-							setUsername(e.target.value);
-						}}
-						value={username}
-					/>
+				<form className="registering" onSubmit={handleSubmit}>
+					<div className="input">
+						<label htmlFor="username">Username</label>
+						<input
+							type="text"
+							id="username"
+							ref={userRef}
+							autoComplete="off"
+							required
+							onChange={(e) => {
+								setUsername(e.target.value);
+							}}
+							value={username}
+						/>
+					</div>
 
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						id="password"
-						required
-						onChange={(e) => {
-							setPassword(e.target.value);
-						}}
-						value={password}
-					/>
+					<div className="input">
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							id="password"
+							required
+							onChange={(e) => {
+								setPassword(e.target.value);
+							}}
+							value={password}
+						/>
+					</div>
 
-					<label htmlFor="passwordAgain">Re-enter password</label>
-					<input
-						type="password"
-						id="passwordAgain"
-						required
-						onChange={handlePassword}
-					/>
+					<div className="input">
+						<label htmlFor="passwordAgain">Re-enter password</label>
+						<input
+							type="password"
+							id="passwordAgain"
+							required
+							onChange={handlePassword}
+						/>
+					</div>
 
 					<div className="btn">
 						<button>Register</button>
 					</div>
 				</form>
-				<p className="notregistered">
+
+				<p className="link">
 					Already have an account ? <br />
 					<Link to="/">Sign In</Link>
 				</p>
-			</section>
+			</div>
 		</div>
 	);
 }

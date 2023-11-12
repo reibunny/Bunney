@@ -1,67 +1,50 @@
 .login {
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-section {
-	text-align: center;
-	max-width: 50rem;
-	height: 50rem;
-	padding: 15px;
-	background: rgb(137, 65, 153);
-	background: radial-gradient(
-		circle,
-		rgba(137, 65, 153, 1) 17%,
-		rgba(18, 0, 26, 1) 90%
-	);
-	border-radius: 50px;
-	border: #361d45 outset solid 3px;
-	box-shadow: 5px black;
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 70vh;
+	width: 30vw;
 	display: grid;
-	grid-template-rows: 1fr 1fr 0.5fr 1.5fr;
-	h1 {
-		margin-top: 10px;
-	}
+	grid-template-rows: 0.3fr 0.1fr 1fr;
+	align-items: center;
+	padding: 1vw;
 
 	form {
+		grid-row-start: 3;
 		display: flex;
-		// justify-content: center;
-		text-align: left;
-		max-width: 400px;
 		flex-direction: column;
+		align-items: center;
 
-		.btn {
+		&.registering {
+			grid-row-start: 3;
+		}
+
+		.input {
 			display: flex;
-			width: 400px;
-			justify-content: center;
-			align-items: center;
-			margin-top: 2rem;
-		}
+			flex-direction: column;
+			width: 21.5vw;
+			margin-bottom: 3rem;
 
-		label {
-			margin-top: 2rem;
+			label {
+				text-align: left;
+				margin-left: 1.5rem;
+			}
 		}
 	}
 
+	.btn {
+		grid-row-start: 4;
+	}
+
+	h1,
 	p {
-		font-size: 1.7rem;
-	}
-
-	p.notregistered {
-		text-align: right;
-		margin-top: 10px;
-		a {
-			margin-right: 0.3rem;
-			margin-top: 5rem;
-			font-size: 1.5rem;
-		}
+		text-align: center;
 	}
 
 	p.errormsg {
-		text-align: center;
-		color: red;
-		margin-top: 10px;
+		color: rgb(255, 82, 82);
+	}
+
+	p.link {
+		text-align: right;
+		font-size: 1.5rem;
 	}
 }

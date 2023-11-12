@@ -4,7 +4,13 @@ import UserContext from "../context/UserProvider";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import "../styles/lateral.scss";
 
-import { ReactComponent as Disconnect } from "../assets/power-off-solid.svg";
+import { ReactComponent as DisconnectIcon } from "../assets/power-off-solid.svg";
+import { ReactComponent as DashboardIcon } from "../assets/couches.svg";
+import { ReactComponent as ReportsIcon } from "../assets/graphique-line-up.svg";
+import { ReactComponent as HistoryIcon } from "../assets/horloge-cinq.svg";
+import { ReactComponent as ProfileIcon } from "../assets/utilisateur.svg";
+import { ReactComponent as SettingsIcon } from "../assets/reglages.svg";
+import { ReactComponent as InfoIcon } from "../assets/info.svg";
 
 export default function LateralBar() {
 	const { auth, setAuth } = useContext(AuthContext);
@@ -12,32 +18,84 @@ export default function LateralBar() {
 
 	return (
 		<div className="lateral">
+			<div className="logo">
+				<h1>Bunney</h1>
+			</div>
 			<div className="tabs">
-				<div className="tab">
-					<NavLink exact to="/" activeClassName="active">
-						Dashboard
-					</NavLink>
-				</div>
-				<div className="tab">
-					<NavLink to="/reports" activeClassName="active">
-						Reports
-					</NavLink>
-				</div>
-				<div className="tab">
-					<NavLink to="/history" activeClassName="active">
-						History
-					</NavLink>
-				</div>
-				<div className="tab">
-					<NavLink to="/profile" activeClassName="active">
-						Profile
-					</NavLink>
-				</div>
-				<div className="tab">
-					<NavLink to="/settings" activeClassName="active">
-						Settings
-					</NavLink>
-				</div>
+				<ul>
+					<li>
+						<NavLink exact to="/" className="tab" activeClassName="tab active">
+							<DashboardIcon className="icon" />
+							Dashboard
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							exact
+							to="/reports"
+							className="tab"
+							activeClassName="tab active">
+							<ReportsIcon className="icon" />
+							Reports
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							exact
+							to="/history"
+							className="tab"
+							activeClassName="tab active">
+							<HistoryIcon className="icon" />
+							History
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							exact
+							to="/profile"
+							className="tab"
+							activeClassName="tab active">
+							<ProfileIcon className="icon" />
+							Profile
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							exact
+							to="/info"
+							className="tab"
+							activeClassName="tab active">
+							<InfoIcon className="icon" />
+							Info
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							exact
+							to="/settings"
+							className="tab"
+							activeClassName="tab active">
+							<SettingsIcon className="icon" />
+							Settings
+						</NavLink>
+					</li>
+				</ul>
+
+				{/* <NavLink to="/reports" className="tab" activeClassName="tab active">
+					Reports
+				</NavLink>
+
+				<NavLink to="/history" className="tab" activeClassName="tab active">
+					History
+				</NavLink>
+
+				<NavLink to="/profile" className="tab" activeClassName="tab active">
+					Profile
+				</NavLink>
+
+				<NavLink to="/settings" className="tab" activeClassName="tab active">
+					Settings
+				</NavLink> */}
 			</div>
 			<div className="profile">
 				<div className="card">
@@ -49,7 +107,7 @@ export default function LateralBar() {
 					onClick={() => {
 						setAuth(null);
 					}}>
-					<Disconnect />
+					<DisconnectIcon />
 				</button>
 			</div>
 		</div>
