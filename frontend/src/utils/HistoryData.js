@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthProvider";
-import IncomeModal from "./IncomeModal";
-import ExpenseModal from "./ExpenseModal";
 
 import "../styles/historyData.scss";
 
@@ -18,7 +16,7 @@ export default function HistoryData() {
 	const formatTimestamp = (timestamp) => {
 		const date = new Date(timestamp);
 		const day = date.getDate().toString().padStart(2, "0");
-		const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
+		const month = (date.getMonth() + 1).toString().padStart(2, "0");
 		const year = date.getFullYear();
 		const hours = date.getHours().toString().padStart(2, "0");
 		const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -36,7 +34,7 @@ export default function HistoryData() {
 			});
 			const result = response.data;
 			const sortedData = result.sort(
-				(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+				(a, b) => new Date(b.date) - new Date(a.date)
 			);
 			setData(sortedData);
 			setLoading(false);
@@ -112,7 +110,7 @@ export default function HistoryData() {
 											className={info.type === "income" ? "income" : "expense"}>
 											{info.title}
 										</td>
-										<td>{formatTimestamp(info.createdAt)}</td>
+										<td>{formatTimestamp(info.date)}</td>
 										<td>{info.category}</td>
 										<td>{info?.budget || "None"}</td>
 										<td>

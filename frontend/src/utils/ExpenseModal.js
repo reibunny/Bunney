@@ -28,16 +28,42 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 		"December",
 	];
 
-	const now = Date.now();
-	const currentDate = new Date(now);
+	const currentDate = new Date();
 	const currentMonth = currentDate.getMonth();
+
+	const formatDate = (date) => {
+		const day = date.getDate().toString().padStart(2, "0");
+		const month = (date.getMonth() + 1).toString().padStart(2, "0");
+		const year = date.getFullYear();
+
+		return `${year}-${month}-${day}`;
+	};
+
+	const reverseDate = (dateString) => {
+		console.log(dateString);
+		// const [year, month, day] = dateString.split("/");
+		// return new Date(`${year}-${month}-${day}`);
+	};
 
 	const [customValue, setCustomValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("restaurant");
+	const [selectedDate, setSelectedDate] = useState(currentDate);
+
+	const handleDateChange = (e) => {
+		const newDate = new Date(e.target.value);
+
+		setSelectedDate(newDate);
+
+		setFormData((prevData) => ({
+			...prevData,
+			date: formatDate(newDate),
+		}));
+	};
 
 	const [formData, setFormData] = useState({
 		userId: user._id,
 		title: "",
+		date: selectedDate,
 		amount: "",
 		category: "restaurant",
 		customCategory: "",
@@ -78,12 +104,11 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 		e.preventDefault();
 
 		try {
-			console.log(formData);
-			console.log(typeof formData.date);
 			const response = await axios.post(
 				`${URI}/add-expense`,
 				{
 					title: formData.title,
+					date: formData.date,
 					amount: formData.amount,
 					category: formData.category,
 					customCategory: formData?.customCategory,
@@ -105,6 +130,7 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 				setFormData({
 					userId: user._id,
 					title: `${months[currentMonth]} Expenses`,
+					date: new Date(),
 					amount: "",
 					category: "restaurant",
 					customCategory: "",
@@ -135,6 +161,17 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 							value={formData.title}
 							placeholder={`${months[currentMonth]} Expenses`}
 							autoComplete="off"
+						/>
+					</div>
+
+					<div className="input">
+						<label htmlFor="dateInput">Date</label>
+						<input
+							type="date"
+							id="dateInput"
+							value={formatDate(selectedDate)}
+							onChange={handleDateChange}
+							step="1"
 						/>
 					</div>
 
