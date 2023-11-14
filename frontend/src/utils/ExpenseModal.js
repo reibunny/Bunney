@@ -33,13 +33,13 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 	const currentMonth = currentDate.getMonth();
 
 	const [customValue, setCustomValue] = useState("");
-	const [selectedOption, setSelectedOption] = useState("salary");
+	const [selectedOption, setSelectedOption] = useState("restaurant");
 
 	const [formData, setFormData] = useState({
 		userId: user._id,
 		title: "",
 		amount: "",
-		category: "salary",
+		category: "restaurant",
 		customCategory: "",
 		description: "",
 	});
@@ -104,9 +104,9 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 				// Reset Form
 				setFormData({
 					userId: user._id,
-					title: `${months[currentMonth]} Salary`,
+					title: `${months[currentMonth]} Expenses`,
 					amount: "",
-					category: "salary",
+					category: "restaurant",
 					customCategory: "",
 					description: "",
 				});
@@ -162,7 +162,7 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 							id="category"
 							onChange={handleSelect}
 							value={selectedOption}
-							defaultValue="food">
+							defaultValue="restaurant">
 							<option value="restaurant" key="0">
 								Restaurant
 							</option>
