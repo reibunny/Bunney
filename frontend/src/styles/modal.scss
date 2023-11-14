@@ -18,14 +18,28 @@
 		padding: 10px;
 	}
 
+	.column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		h2 {
+			margin-top: 6vh;
+		}
+
+		.btns button {
+			margin: 6vh 2vw;
+		}
+	}
+
 	.modal-main {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		position: fixed;
-		background: rgb(255, 87, 115);
+		background: grey;
 		width: 60%;
-		height: 80vh;
+		height: auto;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -49,10 +63,11 @@
 			}
 
 			button {
-				margin-top: 6vh;
+				margin: 6vh 0;
 			}
 
 			h2 {
+				margin-top: 6vh;
 				align-self: center;
 			}
 		}

@@ -83,3 +83,43 @@ exports.deleteIncome = async (req, res) => {
 		res.status(500).json({ message: "Server error." });
 	}
 };
+
+exports.patchIncome = async (req, res) => {
+	const { id } = req.params;
+
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
+	try {
+		// Ensure that the user can only delete their own incomes
+		const editedIncome = await Income.findOneAndUpdate(
+			{
+				_id: id,
+				userId: req.user._id,
+			},
+			{
+				$set: {
+					title: req.body?.title,
+					amount: req.body?.amount,
+					date: req.body?.date,
+					category: req.body?.category,
+					customCategory: req.body?.customCategory,
+					description: req.body?.description,
+				},
+			},
+
+			{ new: true }
+		);
+
+		if (!editedIncome) {
+			return res.status(404).json({
+				message: "Income not found or you don't have permission to edit it.",
+			});
+		}
+
+		res.status(200).json({ message: "Income edited." });
+	} catch (error) {
+		res.status(500).json({ message: "Server error." });
+	}
+};

@@ -28,31 +28,55 @@ export default function IncomeModal({ isVisible, toggleModal }) {
 		"December",
 	];
 
-	const now = Date.now();
-	const currentDate = new Date(now);
+	const currentDate = new Date();
 	const currentMonth = currentDate.getMonth();
+
+	const formatDate = (date) => {
+		const day = date.getDate().toString().padStart(2, "0");
+		const month = (date.getMonth() + 1).toString().padStart(2, "0");
+		const year = date.getFullYear();
+
+		return `${year}-${month}-${day}`;
+	};
 
 	const [customValue, setCustomValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("salary");
+	const [selectedDate, setSelectedDate] = useState(currentDate);
+
+	const handleDateChange = (e) => {
+		const newDate = new Date(e.target.value);
+		setSelectedDate(newDate);
+		console.log(e.target.value);
+		setFormData((prevData) => ({
+			...prevData,
+			date: newDate,
+		}));
+	};
 
 	const [formData, setFormData] = useState({
 		userId: user._id,
 		title: "",
+		date: selectedDate,
 		amount: "",
 		category: "salary",
 		customCategory: "",
 		description: "",
 	});
 
-	useEffect(() => {
-		setFormData((prevData) => ({
-			...prevData,
-			category: selectedOption,
-		}));
-	}, [selectedOption]);
+	// useEffect(() => {
+	// 	setFormData((prevData) => ({
+	// 		...prevData,
+	// 		category: selectedOption,
+	// 	}));
+	// }, [selectedOption]);
 
 	const handleSelect = (e) => {
-		setSelectedOption(e.target.value);
+		const newCategory = e.target.value;
+		setSelectedOption(newCategory);
+		setFormData((prevData) => ({
+			...prevData,
+			category: newCategory,
+		}));
 	};
 
 	useEffect(() => {
@@ -83,8 +107,8 @@ export default function IncomeModal({ isVisible, toggleModal }) {
 				`${URI}/add-income`,
 				{
 					title: formData.title,
+					date: formData.date,
 					amount: formData.amount,
-					date: currentDate,
 					category: formData.category,
 					customCategory: formData?.customCategory,
 					description: formData?.description,
@@ -136,6 +160,17 @@ export default function IncomeModal({ isVisible, toggleModal }) {
 							value={formData.title}
 							placeholder={`${months[currentMonth]} Salary`}
 							autoComplete="off"
+						/>
+					</div>
+
+					<div className="input">
+						<label htmlFor="dateInput">Date</label>
+						<input
+							type="date"
+							id="dateInput"
+							value={formatDate(selectedDate)}
+							onChange={handleDateChange}
+							step="1"
 						/>
 					</div>
 

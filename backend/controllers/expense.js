@@ -89,3 +89,44 @@ exports.deleteExpense = async (req, res) => {
 	// 		res.status(500).json({ message: "Server error." });
 	// 	});
 };
+
+exports.patchExpense = async (req, res) => {
+	const { id } = req.params;
+
+	if (!req.user) {
+		return res.status(401).json({ message: "User not authenticated." });
+	}
+
+	try {
+		// Ensure that the user can only delete their own Expenses
+		const editedExpense = await Expense.findOneAndUpdate(
+			{
+				_id: id,
+				userId: req.user._id,
+			},
+			{
+				$set: {
+					title: req.body?.title,
+					amount: req.body?.amount,
+					date: req.body?.date,
+					category: req.body?.category,
+					customCategory: req.body?.customCategory,
+					budget: req.body?.budget,
+					description: req.body?.description,
+				},
+			},
+
+			{ new: true }
+		);
+
+		if (!editedExpense) {
+			return res.status(404).json({
+				message: "Expense not found or you don't have permission to edit it.",
+			});
+		}
+
+		res.status(200).json({ message: "Expense edited." });
+	} catch (error) {
+		res.status(500).json({ message: "Server error." });
+	}
+};

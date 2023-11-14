@@ -6,12 +6,18 @@ import "../styles/historyData.scss";
 
 import { ReactComponent as EditIcon } from "../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../assets/delete.svg";
+import ConfirmModal from "./ConfirmDeleteModal";
+import EditModal from "./EditModal";
 
 export default function HistoryData() {
 	const URI = "http://localhost:8000/api";
 	const [data, setData] = useState([]);
 	const { auth } = useContext(AuthContext);
 	const [loading, setLoading] = useState(true);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [transactionToDelete, setTransactionToDelete] = useState(null);
+	const [showEditModal, setShowEditModal] = useState(false);
+	const [transactionToEdit, setTransactionToEdit] = useState(null);
 
 	const formatTimestamp = (timestamp) => {
 		const date = new Date(timestamp);
@@ -46,44 +52,96 @@ export default function HistoryData() {
 	useEffect(() => {
 		const updateInterval = setInterval(() => {
 			fetchData();
-		}, 1000);
+		}, 1500);
 
 		return () => {
 			clearInterval(updateInterval);
 		};
 	}, [auth]);
 
-	const editTransaction = (e) => {
-		e.preventDefault();
-		return;
+	const handleEdit = (info) => {
+		setTransactionToEdit(info);
+		setShowEditModal(true);
 	};
 
-	const deleteTransaction = (_id, type) => {
-		if (type === "income") {
+	const editTransaction = async (editedData) => {
+		if (transactionToEdit) {
+			const { _id, type } = transactionToEdit;
+
 			try {
-				axios.delete(`${URI}/del-income/${_id}`, {
-					headers: {
-						"Content-Type": "application/json",
-						"x-auth-token": auth,
-					},
-				});
-			} catch (error) {
-				console.log("Error: ", error.message);
-			}
-		} else {
-			try {
-				axios.delete(`${URI}/del-expense/${_id}`, {
-					headers: {
-						"Content-Type": "application/json",
-						"x-auth-token": auth,
-					},
-				});
+				if (type === "income") {
+					await axios.put(`${URI}/edit-income/${_id}`, editedData, {
+						headers: {
+							"Content-Type": "application/json",
+							"x-auth-token": auth,
+						},
+					});
+				} else {
+					await axios.put(`${URI}/edit-expense/${_id}`, editedData, {
+						headers: {
+							"Content-Type": "application/json",
+							"x-auth-token": auth,
+						},
+					});
+				}
+
+				// Refresh data after deleting
+				fetchData();
+
+				// Close the delete confirmation modal
+				setShowEditModal(false);
 			} catch (error) {
 				console.log("Error: ", error.message);
 			}
 		}
+	};
 
-		return;
+	const cancelEditTransaction = () => {
+		setShowEditModal(false);
+		setTransactionToEdit(null);
+	};
+
+	const handleDelete = (info) => {
+		setTransactionToDelete(info);
+		setShowDeleteModal(true);
+	};
+
+	const deleteTransaction = async () => {
+		if (transactionToDelete) {
+			const { _id, type } = transactionToDelete;
+
+			try {
+				if (type === "income") {
+					await axios.delete(`${URI}/del-income/${_id}`, {
+						headers: {
+							"Content-Type": "application/json",
+							"x-auth-token": auth,
+						},
+					});
+				} else {
+					await axios.delete(`${URI}/del-expense/${_id}`, {
+						headers: {
+							"Content-Type": "application/json",
+							"x-auth-token": auth,
+						},
+					});
+				}
+
+				// Refresh data after deleting
+				fetchData();
+			} catch (error) {
+				console.log("Error: ", error.message);
+			} finally {
+				// Close the delete confirmation modal
+				setShowDeleteModal(false);
+				setTransactionToDelete(null);
+			}
+		}
+	};
+
+	const cancelDeleteTransaction = () => {
+		setShowDeleteModal(false);
+		setTransactionToDelete(null);
 	};
 
 	return (
@@ -117,20 +175,35 @@ export default function HistoryData() {
 											<EditIcon
 												className="edit-icon"
 												onClick={() => {
-													editTransaction(info._id, info.type);
+													handleEdit(info);
 												}}
 											/>
 											<DeleteIcon
 												className="delete-icon"
-												onClick={() => {
-													deleteTransaction(info._id, info.type);
-												}}
+												onClick={() => handleDelete(info)}
 												id={info._id}
 											/>
 										</td>
 									</tr>
 								))}
 							</tbody>
+
+							{showEditModal && (
+								<EditModal
+									transactionToEdit={transactionToEdit}
+									onConfirm={editTransaction}
+									onCancel={cancelEditTransaction}
+								/>
+							)}
+
+							{showDeleteModal && (
+								<ConfirmModal
+									message="Are you sure you want to delete this transaction?"
+									transactionToDelete={transactionToDelete}
+									onConfirm={deleteTransaction}
+									onCancel={cancelDeleteTransaction}
+								/>
+							)}
 						</table>
 					) : (
 						<p>No data available</p>

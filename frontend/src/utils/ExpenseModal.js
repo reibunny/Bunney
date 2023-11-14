@@ -39,24 +39,17 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 		return `${year}-${month}-${day}`;
 	};
 
-	const reverseDate = (dateString) => {
-		console.log(dateString);
-		// const [year, month, day] = dateString.split("/");
-		// return new Date(`${year}-${month}-${day}`);
-	};
-
 	const [customValue, setCustomValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("restaurant");
 	const [selectedDate, setSelectedDate] = useState(currentDate);
 
 	const handleDateChange = (e) => {
 		const newDate = new Date(e.target.value);
-
 		setSelectedDate(newDate);
-
+		console.log(e.target.value);
 		setFormData((prevData) => ({
 			...prevData,
-			date: formatDate(newDate),
+			date: newDate,
 		}));
 	};
 
@@ -70,15 +63,20 @@ export default function ExpenseModal({ isVisible, toggleModal }) {
 		description: "",
 	});
 
-	useEffect(() => {
-		setFormData((prevData) => ({
-			...prevData,
-			category: selectedOption,
-		}));
-	}, [selectedOption]);
+	// useEffect(() => {
+	// 	setFormData((prevData) => ({
+	// 		...prevData,
+	// 		category: selectedOption,
+	// 	}));
+	// }, [selectedOption]);
 
 	const handleSelect = (e) => {
-		setSelectedOption(e.target.value);
+		const newCategory = e.target.value;
+		setSelectedOption(newCategory);
+		setFormData((prevData) => ({
+			...prevData,
+			category: newCategory,
+		}));
 	};
 
 	useEffect(() => {
