@@ -13,7 +13,7 @@ import { ReactComponent as SettingsIcon } from "../assets/reglages.svg";
 import { ReactComponent as InfoIcon } from "../assets/info.svg";
 
 export default function LateralBar() {
-	const { auth, setAuth } = useContext(AuthContext);
+	const { setAuth } = useContext(AuthContext);
 	const { user } = useContext(UserContext);
 
 	return (

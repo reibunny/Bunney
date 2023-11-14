@@ -42,7 +42,6 @@ export default function Login() {
 			// Store the accessToken in your context or wherever you manage authentication
 			setAuth(accessToken);
 			setUser(user);
-			console.log(user);
 			setSuccess(true);
 		} catch (error) {
 			// Handle login failure, show error message, etc.

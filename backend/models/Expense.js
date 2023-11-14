@@ -11,6 +11,7 @@ const months = [
 	"August",
 	"September",
 	"October",
+	"November",
 	"December",
 ];
 
@@ -61,7 +62,7 @@ const ExpenseSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 			trim: true,
-			default: `${months[currentMonth]} expense`,
+			default: `${months[currentMonth]} expenses`,
 		},
 
 		description: {

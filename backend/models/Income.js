@@ -12,6 +12,7 @@ const months = [
 	"August",
 	"September",
 	"October",
+	"November",
 	"December",
 ];
 
@@ -58,17 +59,23 @@ const IncomeSchema = new mongoose.Schema(
 			trim: true,
 		},
 
-		budget: {
+		customCategory: {
 			type: String,
 			required: false,
 			trim: true,
-			default: `${months[currentMonth]} income`,
 		},
+
+		// budget: {
+		// 	type: String,
+		// 	required: false,
+		// 	trim: true,
+		// 	default: `${months[currentMonth]} income`,
+		// },
 
 		description: {
 			type: String,
 			required: false,
-			maxLength: 20,
+			maxLength: 50,
 			trim: true,
 		},
 	},

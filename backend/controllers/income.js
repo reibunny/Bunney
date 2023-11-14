@@ -1,7 +1,7 @@
 const Income = require("../models/Income");
 
 exports.addIncome = async (req, res) => {
-	const { title, amount, category, date } = req.body;
+	const { title, amount, category, customCategory, date } = req.body;
 
 	if (!req.user) {
 		return res.status(401).json({ message: "User not authenticated." });
@@ -11,20 +11,27 @@ exports.addIncome = async (req, res) => {
 		title,
 		amount,
 		category,
+		customCategory,
 		date,
 		userId: req.user._id,
 	});
 
 	try {
 		// validations
-		if (!title || !amount || !category) {
+		if (!title || !amount || (!category && !customCategory)) {
 			return res.status(400).json({ message: "All fields are required." });
 		}
 
-		if (amount <= 0 || !amount === "number") {
+		if (amount <= 0 || isNaN(amount)) {
 			return res
 				.status(400)
 				.json({ message: "Amount must be a number superior to 0." });
+		}
+
+		if (category === "custom" && !customCategory) {
+			return res
+				.status(400)
+				.json({ message: "Please submit a category or custom category." });
 		}
 
 		// finally

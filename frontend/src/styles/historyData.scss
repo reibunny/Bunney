@@ -1,0 +1,32 @@
+.history-data {
+	display: flex;
+	flex-direction: column;
+
+	.income {
+		color: #9ce053;
+	}
+
+	.expense {
+		color: rgb(255, 107, 107);
+	}
+
+	svg {
+		&.edit-icon {
+			fill: rgb(142, 166, 254);
+			margin-right: 0.5vw;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		&.delete-icon {
+			fill: rgb(255, 115, 115);
+			margin-left: 0.5vw;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+}

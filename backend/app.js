@@ -11,6 +11,10 @@ const jwt = require("jsonwebtoken");
 
 const PORT = process.env.SERVER_PORT;
 
+// middlewares
+app.use(express.json());
+app.use(cors());
+
 // JWT middleware
 app.use((req, res, next) => {
 	const token = req.header("x-auth-token");
@@ -36,10 +40,6 @@ app.use((req, res, next) => {
 		res.status(400).json();
 	}
 });
-
-// middlewares
-app.use(express.json());
-app.use(cors());
 
 // routes
 readdirSync("./routes").map((route) => {

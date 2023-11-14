@@ -55,8 +55,6 @@ exports.logUser = async (req, res) => {
 				username: user.username,
 				_id: user._id,
 				// Donner son id à l'utilisateur
-				// user._id
-				// password: user.password,
 			};
 			const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
 			res.json({ accessToken: accessToken, user: payload });

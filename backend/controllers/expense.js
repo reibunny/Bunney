@@ -21,10 +21,16 @@ exports.addExpense = async (req, res) => {
 			return res.status(400).json({ message: "All fields are required." });
 		}
 
-		if (amount <= 0 || typeof amount !== "number") {
+		if (amount <= 0 || isNaN(amount)) {
 			return res
 				.status(400)
 				.json({ message: "Amount must be a number superior to 0." });
+		}
+
+		if (category === "custom" && !customCategory) {
+			return res
+				.status(400)
+				.json({ message: "Please submit a category or custom category." });
 		}
 
 		// finally
